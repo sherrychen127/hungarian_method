@@ -1,16 +1,8 @@
-w, h = 5, 5;
-matrix = [[0 for x in range(w)] for y in range(h)]
 
-marked = []
-deleted_col = []
-deleted_row = []
-intersection = []
+
 def hungarianMethod(matrix):
-    done = 0
-
-
-
-
+    deleted_col = []
+    deleted_row = []
     marked = []
 
     #step1: row reductioin and col reduction
@@ -80,7 +72,7 @@ def cover_zero(matrix, deleted_row, deleted_col):
         if count == len(matrix):
             done = 1
         else:
-            matrix = adjust_matrix(matrix,deleted_row,deleted_col)
+            matrix = adjust_matrix(matrix, deleted_row, deleted_col)
             deleted_col = []
             deleted_row = []
 
@@ -131,8 +123,6 @@ def adjust_matrix(matrix, deleted_row, deleted_col):
         return matrix
     for index in remain_arr:
         matrix[index[0]][index[1]] -= min
-    for tuple in intersection:
-        matrix[tuple[0]][tuple[1]] += min
     print("done adjusting matrix", matrix)
     return matrix
 
@@ -161,7 +151,7 @@ def zero_count(arr, deleted_arr):
 
 
 if __name__ == '__main__':
-    matrix = [[0,0,0],[0,1,1],[1,0,0]]
+    matrix = [[2,1,0],[1,1,0],[0,0,0]]
     marked = hungarianMethod(matrix)
     print(marked)
 
