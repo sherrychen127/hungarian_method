@@ -80,10 +80,15 @@ def cover_zero(matrix, deleted_row, deleted_col):
 
 
 
+
 def find_assignment(matrix, marked):
     deleted_row = []
     deleted_col = []
-    while(len(marked)!= len(matrix)):
+    count = 0
+    while True:
+        count += 101
+        if count > 100:
+            return compromised(matrix,marked, deleted_col, deleted_row)
         for i in range(1, len(matrix)+1):
             for row in range(len(matrix)):
                 if zero_count(matrix[row], []) == i:
@@ -103,10 +108,19 @@ def find_assignment(matrix, marked):
                     for row in range(len(matrix)):
                         if matrix[row][col] == 0 and row not in deleted_row and col not in deleted_col :
                             deleted_row.append(row)
+                            deleted_col.append(col)
                             tuple = (row,col)
                             marked.append(tuple)
+        #print("marked len:",len(marked))
+        #print("matrix len:", len(matrix))
+        if len(marked) == len(matrix):
+            break
+        else:
+            matrix = adjust_matrix(matrix, deleted_row,deleted_col )
+            marked = []
+            deleted_row = []
+            deleted_col = []
     return marked
-
 
 
 def adjust_matrix(matrix, deleted_row, deleted_col):
@@ -125,6 +139,26 @@ def adjust_matrix(matrix, deleted_row, deleted_col):
         matrix[index[0]][index[1]] -= min
     print("done adjusting matrix", matrix)
     return matrix
+
+
+def compromised(matrix, marked, deleted_col, deleted_row):
+    full = []
+    for i in range(len(matrix)):
+        full.append(i)
+    for i in full:
+        if i not in deleted_row:
+            ind = -1
+            min = 1000
+            for j in range(len(matrix[i])):
+                if j not in deleted_col and matrix[i][j] < min:
+                    min = matrix[i][j]
+                    ind = j
+
+            marked.append((i,ind))
+            deleted_row.append(i)
+            deleted_col.append(ind)
+    return marked
+
 
 def find_min(arr):
     #@INPUT: 1D array
@@ -151,7 +185,7 @@ def zero_count(arr, deleted_arr):
 
 
 if __name__ == '__main__':
-    matrix = [[2,1,0],[1,1,0],[0,0,0]]
+    matrix = [[0, 4, 2, 4, 0, 2], [2, 4, 6, 0, 4, 2], [6, 0, 2, 4, 4, 2], [4, 2, 6, 2, 4, 0], [2, 2, 6, 0, 4, 0], [2, 2, 0, 6, 0, 4]]
     marked = hungarianMethod(matrix)
     print(marked)
 
