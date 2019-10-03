@@ -9,8 +9,8 @@ def hungarianMethod(matrix):
     matrix = row_reduction(matrix)
     matrix = col_reduction(matrix)
 
-        #step2: row scanning (&col scanning)
-        #row scanning: if the row has exactly one zero, mark the zero and draw a vertical line
+    #step2: row scanning (&col scanning)
+    #row scanning: if the row has exactly one zero, mark the zero and draw a vertical line
     matrix = cover_zero(matrix, deleted_row, deleted_col)
     marked = find_assignment(matrix, marked)
 
